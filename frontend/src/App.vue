@@ -7,6 +7,7 @@
     </select>
     <input v-model="inputData" type="number">
     <button v-on:click="updateElecData">Update</button>
+    <button v-on:click="apiTest">apiTest</button>
     <line-chart
       class=chart
       :data="elecData"
@@ -20,6 +21,7 @@
 <script>
 
 import LineChart from './components/LineChart'
+import axios from 'axios'
 
 export default {
   name: 'app',
@@ -27,7 +29,7 @@ export default {
   props: {},
   data () {
     return {
-      elecData: [0, 10, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0],
+      elecData: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       inputData: 0,
       lastUpdate: Date.now(),
       selectedMonth: 0,
@@ -51,6 +53,16 @@ export default {
     updateElecData: function () {
       this.elecData[this.selectedMonth - 1] = parseInt(this.inputData)
       this.lastUpdate = Date.now()
+    },
+    apiTest: function () {
+      const path = 'http://localhost:5000/api/getelec'
+      axios.get(path)
+        .then(response => {
+          this.elecData = response.data.elec_data
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   }
 }
