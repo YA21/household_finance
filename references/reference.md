@@ -1,1 +1,2 @@
 - [Vue.jsとFlaskでフルスタックなWebアプリの開発環境を構築 その１〜〜環境構築〜〜 - 雑食へいちゃんの思い出達](https://kittagon.hateblo.jp/entry/2018/08/27/011354)
+- [Vue.js(vue-cli)とFlaskを使って簡易アプリを作成する【後半 - サーバーサイド編】 - Qiita](https://qiita.com/mitch0807/items/c2e84beee6c9a61e86cd)
