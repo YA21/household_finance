@@ -6,7 +6,7 @@
       </option>
     </select>
     <input v-model="inputData" type="number">
-    <button v-on:click="updateElecData">Update</button>
+    <button class="btn btn-primary" v-on:click="updateElecData">Update</button>
     <button v-on:click="apiTest">apiTest</button>
     <line-chart
       class=chart
