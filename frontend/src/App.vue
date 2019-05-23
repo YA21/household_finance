@@ -55,10 +55,11 @@ export default {
       this.lastUpdate = Date.now()
     },
     apiTest: function () {
-      const path = 'http://localhost:5000/api/getelec'
+      const path = `http://localhost:5000/api/getelec`
       axios.get(path)
         .then(response => {
           this.elecData = response.data.elec_data
+          this.lastUpdate = Date.now()
         })
         .catch(error => {
           console.log(error)
