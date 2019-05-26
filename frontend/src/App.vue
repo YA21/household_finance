@@ -1,12 +1,9 @@
 <template>
   <div id=app>
-    <select v-model="selectedMonth">
-      <option v-for="month in months" :value=month.value :key=month.value>
-        {{ month.text }}
-      </option>
-    </select>
-    <input v-model="inputData" type="number">
-    <button class="btn btn-primary" v-on:click="updateElecData">Update</button>
+    <navigation-bar />
+    <input-form
+      @updateElecData="updateElecData"
+    />
     <button v-on:click="apiTest">apiTest</button>
     <line-chart
       class=chart
@@ -20,41 +17,27 @@
 
 <script>
 
+import NavigationBar from './components/NavigationBar'
+import InputForm from './components/InputForm'
 import LineChart from './components/LineChart'
 import axios from 'axios'
 
 export default {
   name: 'app',
-  components: { LineChart },
+  components: { NavigationBar, InputForm, LineChart },
   props: {},
   data () {
     return {
       elecData: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      inputData: 0,
-      lastUpdate: Date.now(),
-      selectedMonth: 0,
-      months: [
-        {text: 'Janualy', value: 1},
-        {text: 'Februaly', value: 2},
-        {text: 'March', value: 3},
-        {text: 'April', value: 4},
-        {text: 'May', value: 5},
-        {text: 'June', value: 6},
-        {text: 'July', value: 7},
-        {text: 'August', value: 8},
-        {text: 'September', value: 9},
-        {text: 'October', value: 10},
-        {text: 'November', value: 11},
-        {text: 'December', value: 12}
-      ]
+      lastUpdate: Date.now()
     }
   },
   methods: {
-    updateElecData: function () {
-      this.elecData[this.selectedMonth - 1] = parseInt(this.inputData)
+    updateElecData (selectedMonth, inputData) {
+      this.elecData[selectedMonth - 1] = parseInt(inputData)
       this.lastUpdate = Date.now()
     },
-    apiTest: function () {
+    apiTest () {
       const path = `http://localhost:5000/api/getelec`
       axios.get(path)
         .then(response => {
@@ -78,5 +61,11 @@ export default {
 
 #app {
   text-align: center;
+}
+
+.input-form {
+  display: flex;
+  width: 60%;
+  margin: auto;
 }
 </style>
