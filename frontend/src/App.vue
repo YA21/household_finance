@@ -4,7 +4,8 @@
     <input-form
       @updateElecData="updateElecData"
     />
-    <button v-on:click="apiTest">apiTest</button>
+    <button v-on:click="apiGetTest">apiGetTest</button>
+    <button v-on:click="apiPostTest">apiPostTest</button>
     <line-chart
       class=chart
       :data="elecData"
@@ -29,7 +30,10 @@ export default {
   data () {
     return {
       elecData: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      lastUpdate: Date.now()
+      lastUpdate: Date.now(),
+      formData: {
+        month: 1
+      }
     }
   },
   methods: {
@@ -37,12 +41,23 @@ export default {
       this.elecData[selectedMonth - 1] = parseInt(inputData)
       this.lastUpdate = Date.now()
     },
-    apiTest () {
+    apiGetTest () {
       const path = `http://localhost:5000/api/getelec`
       axios.get(path)
         .then(response => {
           this.elecData = response.data.elec_data
           this.lastUpdate = Date.now()
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    apiPostTest () {
+      const path = `http://localhost:5000/api/update_elec`
+      axios.post(path, this.formData)
+        .then(response => {
+          console.log(response.data)
+          console.log('ok')
         })
         .catch(error => {
           console.log(error)
