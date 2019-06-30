@@ -42,7 +42,7 @@ export default {
       this.lastUpdate = Date.now()
     },
     apiGetTest () {
-      const path = `http://localhost:5000/api/getelec`
+      const path = `http://0.0.0.0:5000/api/getelec`
       axios.get(path)
         .then(response => {
           this.elecData = response.data.elec_data
