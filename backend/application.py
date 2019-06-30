@@ -5,7 +5,7 @@ def create_app(app_name='FLASK-VUE'):
     app = Flask(app_name,
                 static_folder = "./dist/static",
                 template_folder = "./dist")
-    app.config.from_object('backend.config.BaseConfig')
+    app.config.from_object('config.BaseConfig')
     cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
     return app
