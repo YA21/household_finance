@@ -2,15 +2,14 @@
   <div id=app>
     <navigation-bar />
     <input-form
-      @updateElecData="updateElecData"
+      @updateData="updateData"
     />
-    <button v-on:click="apiGetTest">apiGetTest</button>
     <button v-on:click="apiPostTest">apiPostTest</button>
     <line-chart
       class=chart
-      :data="elecData"
-      :color="'red'"
-      :kind="'electricity'"
+      :data="[elecData, waterData, gasData]"
+      :color="['yellow', 'blue', 'red']"
+      :kind="['electricity', 'water', 'gas']"
       :key="lastUpdate"
     />
   </div>
@@ -30,6 +29,8 @@ export default {
   data () {
     return {
       elecData: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      waterData: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      gasData: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       lastUpdate: Date.now(),
       formData: {
         month: 1
@@ -37,23 +38,18 @@ export default {
     }
   },
   methods: {
-    updateElecData (selectedMonth, inputData) {
-      this.elecData[selectedMonth - 1] = parseInt(inputData)
+    updateData (selectedKind, selectedMonth, inputData) {
+      if (selectedKind == 'electricity') {
+        this.elecData[selectedMonth - 1] = parseInt(inputData)
+      } else if (selectedKind == 'water') {
+        this.waterData[selectedMonth - 1] = parseInt(inputData)
+      } else {
+        this.gasData[selectedMonth - 1] = parseInt(inputData)
+      }
       this.lastUpdate = Date.now()
     },
-    apiGetTest () {
-      const path = `http://0.0.0.0:5000/api/getelec`
-      axios.get(path)
-        .then(response => {
-          this.elecData = response.data.elec_data
-          this.lastUpdate = Date.now()
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    },
     apiPostTest () {
-      const path = `http://localhost:5000/api/update_elec`
+      const path = `http://0.0.0.0:5000/api/update_elec`
       axios.post(path, this.formData)
         .then(response => {
           console.log(response.data)
@@ -63,6 +59,19 @@ export default {
           console.log(error)
         })
     }
+  },
+  mounted () {
+    const path = `http://0.0.0.0:5000/api/getdata`
+    axios.get(path)
+      .then(response => {
+        this.elecData = response.data.elec_data
+        this.waterData = response.data.water_data
+        this.gasData = response.data.gas_data
+        this.lastUpdate = Date.now()
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 }
 </script>

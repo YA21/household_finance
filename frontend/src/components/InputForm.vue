@@ -1,12 +1,17 @@
 <template>
   <div class="input-form">
+    <select v-model="selectedKind">
+      <option v-for="kind in kinds" :key=kind>
+        {{ kind }}
+      </option>
+    </select>
     <select v-model="selectedMonth">
       <option v-for="month in months" :value=month.value :key=month.value>
         {{ month.text }}
       </option>
     </select>
     <b-form-input v-model="inputData" type="number"></b-form-input>
-    <button class="btn btn-primary" v-on:click="updateElecData">Update</button>
+    <button class="btn btn-primary" v-on:click="updateData">Update</button>
   </div>
 </template>
 
@@ -16,7 +21,8 @@ export default {
   data () {
     return {
       inputData: 0,
-      selectedMonth: 0,
+      selectedKind: 'electricity',
+      selectedMonth: 1,
       months: [
         {text: 'Janualy', value: 1},
         {text: 'Februaly', value: 2},
@@ -30,12 +36,13 @@ export default {
         {text: 'October', value: 10},
         {text: 'November', value: 11},
         {text: 'December', value: 12}
-      ]
+      ],
+      kinds: ['electricity', 'water', 'gas']
     }
   },
   methods: {
-    updateElecData () {
-      this.$emit('updateElecData', this.selectedMonth, this.inputData)
+    updateData () {
+      this.$emit('updateData', this.selectedKind, this.selectedMonth, this.inputData)
     }
   }
 }

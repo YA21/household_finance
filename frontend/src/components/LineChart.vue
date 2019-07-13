@@ -11,7 +11,21 @@ export default {
         labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
         datasets: [{
           label: '',
-          borderColor: 'red',
+          borderColor: '',
+          data: [],
+          fill: false,
+          pointRadius: 0,
+          lineTension: 0
+        }, {
+          label: '',
+          borderColor: '',
+          data: [],
+          fill: false,
+          pointRadius: 0,
+          lineTension: 0
+        }, {
+          label: '',
+          borderColor: '',
           data: [],
           fill: false,
           pointRadius: 0,
@@ -21,19 +35,20 @@ export default {
       options: {
         title: {
           display: true,
-          text: ''
+          text: 'housefold finance'
         },
         legend: {
-          display: false
+          display: true
         }
       }
     }
   },
   mounted: function () {
-    this.chartData.datasets[0].data = this.data
-    this.chartData.datasets[0].borderColor = this.color
-    this.chartData.datasets[0].label = this.kind
-    this.options.title.text = this.kind
+    for (let i in this.data) {
+      this.chartData.datasets[i].data = this.data[i]
+      this.chartData.datasets[i].borderColor = this.color[i]
+      this.chartData.datasets[i].label = this.kind[i]
+    }
     this.renderChart(this.chartData, this.options)
   }
 }

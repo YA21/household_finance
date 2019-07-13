@@ -4,10 +4,12 @@ import random
 
 APP = create_app()
 
-@APP.route('/api/getelec', methods=['GET'])
-def get_elec_data():
+@APP.route('/api/getdata', methods=['GET'])
+def get_data():
     response = {
-        'elec_data': [random.randint(1, 100) for i in range(12)]
+        'elec_data': [random.randint(1, 100) for i in range(12)],
+        'water_data': [random.randint(1, 100) for i in range(12)],
+        'gas_data': [random.randint(1, 100) for i in range(12)]
     }
     return jsonify(response)
 
